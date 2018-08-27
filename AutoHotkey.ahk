@@ -22,45 +22,46 @@ Run "movewindow.ahk" ;; ^+m moving a window to other screen
 ;; window moves within screen
 #!Left::
 WinGetActiveStats, Title, Width, Height, X, Y
-  If((X <> 0) OR (Y <> 0) OR (Width <> A_ScreenWidth/2) OR (Height <> A_ScreenHeight)) {
-  WinRestore, %Title%
+If((X <> 0) OR (Y <> 0) OR ((Width <> A_ScreenWidth/2) AND (Width <> A_ScreenWidth*2/5)) OR (Height <> A_ScreenHeight)) {
+    WinRestore, %Title%
     WinMove, %Title%, , 0, 0, (A_ScreenWidth/2), (A_ScreenHeight)
-    }
- else {
-   WinMove, %Title%, , 0, 0, (A_ScreenWidth/3), (A_ScreenHeight)
-     }
+} else If((X = 0) AND (Y = 0) AND (Width = A_ScreenWidth/2) AND (Height = A_ScreenHeight)) {
+    WinMove, %Title%, , 0, 0, (A_ScreenWidth*2/5), (A_ScreenHeight)
+} else {
+  WinMove, %Title%, , 0, 0, (A_ScreenWidth*3/5), (A_ScreenHeight)
+}
 Return
 
 #!Right::
-  WinGetActiveStats, Title, Width, Height, X, Y
-  If((X <> A_ScreenWidth/2) OR (Y <> 0) OR (Width <> A_ScreenWidth/2) OR (Height <> A_ScreenHeight)) {
+WinGetActiveStats, Title, Width, Height, X, Y
+  If(((X <> A_ScreenWidth/2) AND (X <> A_ScreenWidth*3/5)) OR (Y <> 0) OR ((Width <> A_ScreenWidth/2) AND (Width <> A_ScreenWidth*2/5)) OR (Height <> A_ScreenHeight)) {
   WinRestore, %Title%
     WinMove, %Title%, , (A_ScreenWidth/2), 0, (A_ScreenWidth/2), (A_ScreenHeight)
     }
- else {
-   WinMove, %Title%, , (A_ScreenWidth/3*2), 0, (A_ScreenWidth/3), (A_ScreenHeight)
-     }
-Return
-
-#!Up::
-  WinGetActiveStats, Title, Width, Height, X, Y
-  If((Width <> A_ScreenWidth) OR (Height <> A_ScreenHeight)) {
-  WinMove, %Title%, , 0, 0, (A_ScreenWidth), (A_ScreenHeight)
+ else If((X = A_ScreenWidth/2) AND (Y = 0) AND (Width = A_ScreenWidth/2) AND (Height = A_ScreenHeight)) {
+   WinMove, %Title%, , (A_ScreenWidth*3/5), 0, (A_ScreenWidth*2/5), (A_ScreenHeight)
+     } else {
+  WinMove, %Title%, , (A_ScreenWidth*2/5), 0, (A_ScreenWidth*3/5), (A_ScreenHeight)
     }
 Return
 
+#!Up::
+WinGetActiveStats, Title, Width, Height, X, Y
+If((Width <> A_ScreenWidth) OR (Height <> A_ScreenHeight)) {
+  WinMove, %Title%, , 0, 0, (A_ScreenWidth), (A_ScreenHeight)
+}
+Return
 
-
-
+;; Another way out of ScrollLock
 ~Esc::SetScrollLockState, off
 
-  ;; Shift CapsLock for CapsLock usage
-  ~+LControl::CapsLock
+;; Shift CapsLock for CapsLock usage
+~+LControl::CapsLock
 
-  ;; CapsLock becomes main control key
-      ~CapsLock::LControl
+;; CapsLock becomes main control key
+~CapsLock::LControl
 
-	;; Emacs hotkeys
+;; Emacs hotkeys
 #IfWinActive, ahk_class Emacs
   CapsLock::AppsKey
 
