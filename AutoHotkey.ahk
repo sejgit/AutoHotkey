@@ -22,42 +22,45 @@ Run "movewindow.ahk" ;; ^+m moving a window to other screen
 ;; window moves within screen
 #!Left::
 WinGetActiveStats, Title, Width, Height, X, Y
-  SplashTextOn, 400, 300, "WinMove", MaxWindowLeft `n%Title%`n%Width% %Height%`n%X% %Y%`n%A_ScreenWidth% %A_ScreenHeight%
-  WinMove, %Title%, , 0, 0, (A_ScreenWidth/2), (A_ScreenHeight)
-  Sleep, 500
-  SplashTextOff
-  Return
+  If((X <> 0) OR (Y <> 0) OR (Width <> A_ScreenWidth/2) OR (Height <> A_ScreenHeight)) {
+  WinRestore, %Title%
+    WinMove, %Title%, , 0, 0, (A_ScreenWidth/2), (A_ScreenHeight)
+    }
+ else {
+   WinMove, %Title%, , 0, 0, (A_ScreenWidth/3), (A_ScreenHeight)
+     }
+Return
 
 #!Right::
   WinGetActiveStats, Title, Width, Height, X, Y
-  SplashTextOn, 400, 300, "WinMove", MaxWindowRight `n%Title%`n%Width% %Height%`n%X% %Y%`n%A_ScreenWidth% %A_ScreenHeight%
-  WinMove, %Title%, , (A_ScreenWidth/2), 0, (A_ScreenWidth/2), (A_ScreenHeight)
-  Sleep, 500
-  SplashTextOff
-  Return
+  If((X <> A_ScreenWidth/2) OR (Y <> 0) OR (Width <> A_ScreenWidth/2) OR (Height <> A_ScreenHeight)) {
+  WinRestore, %Title%
+    WinMove, %Title%, , (A_ScreenWidth/2), 0, (A_ScreenWidth/2), (A_ScreenHeight)
+    }
+ else {
+   WinMove, %Title%, , (A_ScreenWidth/3*2), 0, (A_ScreenWidth/3), (A_ScreenHeight)
+     }
+Return
 
 #!Up::
   WinGetActiveStats, Title, Width, Height, X, Y
-  SplashTextOn, 400, 300, "WinMove", MaxWindow `n%Title%`n%Width% %Height%`n%X% %Y%`n%A_ScreenWidth% %A_ScreenHeight%
+  If((Width <> A_ScreenWidth) OR (Height <> A_ScreenHeight)) {
   WinMove, %Title%, , 0, 0, (A_ScreenWidth), (A_ScreenHeight)
-  Sleep, 500
-  SplashTextOff
-  Return
+    }
+Return
 
 
 
 
-
-
-  ~Esc::SetScrollLockState, off
+~Esc::SetScrollLockState, off
 
   ;; Shift CapsLock for CapsLock usage
   ~+LControl::CapsLock
 
   ;; CapsLock becomes main control key
-  ~CapsLock::LControl
+      ~CapsLock::LControl
 
-  ;; Emacs hotkeys
+	;; Emacs hotkeys
 #IfWinActive, ahk_class Emacs
   CapsLock::AppsKey
 
