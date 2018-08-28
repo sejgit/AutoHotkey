@@ -1,0 +1,3 @@
+[submodule "windows10DesktopManager"]
+	path = windows10DesktopManager
+	url = https://github.com/jpginc/windows10DesktopManager
