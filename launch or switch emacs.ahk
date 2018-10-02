@@ -15,7 +15,7 @@ If WinExist("ahk_class Emacs")
 }
 Else
 {
-  Run "C:\msys64\mingw64\usr\bin\runemacs.exe"
+  Run "C:\msys64\mingw64\bin\runemacs.exe"
   WinWait ahk_class Emacs
   WinActivate
 }
