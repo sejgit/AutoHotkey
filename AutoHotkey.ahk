@@ -6,6 +6,7 @@ Change Logs
 
 2018 08 15 SeJ init
 2018 08 28 add window to deskop
+2018 10 02 fix caps lock issue
 */
 
 
@@ -40,15 +41,20 @@ SendMode Input
    ~+LControl::CapsLock
 
    ; CapsLock becomes main control key
-   ~CapsLock::LControl
+   ~CapsLock::
+     Send {LControl}
+     SetCapsLockState, off
+     Return
 
-
-   /*
-   Emacs hotkeys
-   */
+     /*
+     Emacs hotkeys
+     */
 
 #IfWinActive, ahk_class Emacs
-   CapsLock::AppsKey
+     ;; below is actually mapping left control to appskey
+    ~CapsLock::Appskey
+     ;; trying to get the right alt to act as Alt modifier in Emacs
+               ~RAlt::Appskey
 
 #IfWinNotActive ahk_class Emacs
    ;; vim navigation with hyper
