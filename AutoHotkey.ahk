@@ -44,13 +44,15 @@ SetBatchLines, -1
      */
 
 #IfWinActive, ahk_class Emacs
-     ;; left Control to appskey to be used as super
+     ;; left Control to appskey to be used as super modifier
      LControl::Appskey
-     LAlt::Esc
+     ;; RAlt to numlock to be used as Alt modifier (leave LAlt as meta)
+     RAlt::NumLock
 
 #IfWinNotActive ahk_class Emacs
      ;; normalize LControl to be control outside of Emacs
      LControl::LControl
+     RAlt::RAlt
 
      ;; vim navigation with hyper
      ~Tab & h:: Send {Left}
