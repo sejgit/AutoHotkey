@@ -37,8 +37,8 @@ SetBatchLines, -1
      */
      ; CapsLock for LeftControl usage
      SetCapsLockState, AlwaysOff
+     +CapsLock::CapsLock
      CapsLock::LControl
-
      /*
      Emacs hotkeys
      */
