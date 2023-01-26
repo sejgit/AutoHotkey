@@ -7,6 +7,18 @@ Change Logs
 2018 08 15 SeJ init
 2018 08 28 add window to deskop
 2018 10 02 fix caps lock issue & set-up Emacs modifiers
+2022 06 13 alternative 2/3 window because Teams does not behave
+2023 01 26 add tab + n, p, d as proxies for Emacs movement
+*/
+
+/*
+Reminder of the Autokey basics
+Symbol	Description
+#	Win (Windows logo key)
+!	Alt
+^	Control
++	Shift
+&	An ampersand may be used between any two keys or mouse buttons to combine them into a custom hotkey
 */
 
 
@@ -53,17 +65,21 @@ SetBatchLines, -1
      ;; normalize LControl to be control outside of Emacs
      LControl::LControl
      RAlt::RAlt
-
-     ;; vim navigation with hyper
-     ~Tab & h:: Send {Left}
+	
+;; vim navigation with hyper
+~Tab & h:: Send {Left}
 ~Tab & l:: Send {Right}
 ~Tab & k:: Send {Up}
 ~Tab & j:: Send {Down}
 
+;; Emacs type navigation
+~Tab & n:: Send {Down}
+~Tab & p:: Send {UP}
+~Tab & d:: Send {Delete}
+
 ;; popular hotkeys with hyper
 ~Tab & c:: Send ^{c}
 ~Tab & v:: Send ^{v}
-
 
 /*
 MSYS hotkeys
@@ -117,6 +133,13 @@ WinGetActiveStats, Title, Width, Height, X, Y
 }
 Return
 
+; 2/3 left hand side directly
+#!+Left::
+WinGetActiveStats, Title, Width, Height, X, Y
+WinRestore, %Title%
+WinMove, %Title%, , 0, 0, (A_ScreenWidth*3/5), (A_ScreenHeight)
+Return
+
 ; cycle on the right hand side
 #!Right::
 WinGetActiveStats, Title, Width, Height, X, Y
@@ -129,6 +152,13 @@ else If((X = A_ScreenWidth/2) AND (Y = 0) AND (Width = A_ScreenWidth/2) AND (Hei
     } else {
     WinMove, %Title%, , (A_ScreenWidth*2/5), 0, (A_ScreenWidth*3/5), (A_ScreenHeight)
 }
+Return
+
+; 2/3 right hand side directly
+#!+Right::
+WinGetActiveStats, Title, Width, Height, X, Y
+WinRestore, %Title%
+WinMove, %Title%, , (A_ScreenWidth*2/5), 0, (A_ScreenWidth*3/5), (A_ScreenHeight)
 Return
 
 ; window to full screen size (not doing a maximize)
